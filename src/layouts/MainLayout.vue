@@ -1,44 +1,33 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="hHh lpR fFf">
+    <!-- Header -->
+    <q-header elevated class="bg-primary text-white">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-avatar>
+          <img src="https://randomuser.me/api/portraits/men/85.jpg" alt="avatar" />
+        </q-avatar>
+        <q-toolbar-title class="q-ml-sm">Chat App</q-toolbar-title>
+        <q-space />
+        <q-btn flat dense icon="logout" label="Logout" @click="logout" />
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
+    <!-- Sidebar -->
+    <q-drawer show-if-above bordered>
       <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.title"
-          v-bind="link"
-        />
+        <q-item-label header>Danh sách người dùng</q-item-label>
+        <q-item v-for="user in users" :key="user.id" clickable>
+          <q-item-section avatar>
+            <q-avatar>
+              <img :src="user.avatar" />
+            </q-avatar>
+          </q-item-section>
+          <q-item-section>{{ user.name }}</q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
+    <!-- Main chat content -->
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -47,56 +36,15 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import EssentialLink, { type EssentialLinkProps } from 'components/EssentialLink.vue';
 
-const linksList: EssentialLinkProps[] = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
+const users = ref([
+  { id: 1, name: 'Nguyễn Văn A', avatar: 'https://randomuser.me/api/portraits/men/32.jpg' },
+  { id: 2, name: 'Trần Thị B', avatar: 'https://randomuser.me/api/portraits/women/44.jpg' },
+  { id: 3, name: 'Lê Văn C', avatar: 'https://randomuser.me/api/portraits/men/65.jpg' },
+]);
 
-const leftDrawerOpen = ref(false);
-
-function toggleLeftDrawer () {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
+function logout() {
+  // Xử lý logout ở đây
+  alert('Bạn đã đăng xuất!');
 }
 </script>
